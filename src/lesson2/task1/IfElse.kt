@@ -3,7 +3,9 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import java.lang.Math.abs
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -63,7 +65,21 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    val q = age.toString().reversed()[0].toInt() - 48
+    var w = 0
+    if (age.toString().length > 1)
+        w = age.toString().reversed()[1].toInt() - 48
+    var ret = age.toString()
+    ret += if (q > 4 || w == 1) {
+        " лет"
+    } else if (q != 1) {
+        " года"
+    } else {
+        " год"
+    }
+    return ret
+}
 
 /**
  * Простая
@@ -127,4 +143,18 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+
+    if (b < c || d < a)
+        return -1
+
+    if (a > c && b < d)
+        return b - a
+    if (a < c && b > d)
+        return d - c
+
+    val min = max(a, c)
+    val max = min(b, d)
+
+    return max - min
+}
