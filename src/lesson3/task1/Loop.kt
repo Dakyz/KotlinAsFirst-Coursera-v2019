@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import kotlin.math.sqrt
 
 /**
@@ -164,7 +165,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int = n.toString().reversed().toInt()
 
 /**
  * Средняя
@@ -196,7 +197,14 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+
+    var result = ""
+    for (q in 1..n){
+        result += sqr(q)
+    }
+    return result[n - 1].toInt() - 48
+}
 
 /**
  * Сложная
