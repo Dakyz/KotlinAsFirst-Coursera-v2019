@@ -3,6 +3,8 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
+import kotlin.math.abs
+import kotlin.math.log10
 import kotlin.math.sqrt
 
 /**
@@ -165,7 +167,25 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = n.toString().reversed().toInt()
+fun revert(n: Int): Int {
+
+    var tmp = n
+
+    val digits: MutableList<Int> = arrayListOf()
+
+    do {
+        val digit = tmp % 10
+        digits.add(digit)
+        tmp /= 10
+    } while (tmp > 0)
+
+    var result = 0
+    for (q in 0..digits.size - 1) {
+        result = result * 10 + digits[q]
+    }
+
+    return result
+}
 
 /**
  * Средняя
@@ -186,7 +206,23 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+
+    var tmp = n
+    val digits = IntArray(10) { 0 }
+    do {
+        val digit = tmp % 10
+        digits[digit]++
+        tmp /= 10
+    } while (tmp > 0)
+    var count = 0
+    for (q in digits)
+        if (q > 0)
+            count++
+    if (count == 1)
+        return false
+    return true
+}
 
 /**
  * Сложная
@@ -197,13 +233,34 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
+
+fun Int.length() = when (this) {
+    0 -> 1
+    else -> log10(abs(toDouble())).toInt() + 1
+}
+
 fun squareSequenceDigit(n: Int): Int {
 
-    var result = ""
-    for (q in 1..n){
-        result += sqr(q)
+    var len = 0
+    var tmp = 0
+    var digit = 0
+    for (q in 1..n) {
+        tmp += sqr(q).length()
+        if (tmp >= n) {
+            digit = q
+            break
+        }
+        len = tmp
     }
-    return result[n - 1].toInt() - 48
+    var sqr_n = revert(sqr(digit))
+    var its = 0
+    do {
+        its = sqr_n % 10
+        sqr_n /= 10
+        len++
+    } while (n > len)
+    return its
+
 }
 
 /**
