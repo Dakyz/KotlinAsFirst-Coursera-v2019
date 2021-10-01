@@ -167,6 +167,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
+
 fun revert(n: Int): Int {
 
     var tmp = n
@@ -180,6 +181,27 @@ fun revert(n: Int): Int {
     } while (tmp > 0)
 
     var result = 0
+    for (q in 0..digits.size - 1) {
+        result = result * 10 + digits[q]
+    }
+
+    return result
+}
+
+
+fun revert(n: Long): Long {
+
+    var tmp = n
+
+    val digits: MutableList<Long> = arrayListOf()
+
+    do {
+        val digit = tmp % 10
+        digits.add(digit)
+        tmp /= 10
+    } while (tmp > 0)
+
+    var result = 0L
     for (q in 0..digits.size - 1) {
         result = result * 10 + digits[q]
     }
@@ -252,14 +274,14 @@ fun squareSequenceDigit(n: Int): Int {
         }
         len = tmp
     }
-    var sqr_n = revert(sqr(digit))
-    var its = 0
+    var sqr_n = revert(sqr(digit).toLong())
+    var its: Long
     do {
         its = sqr_n % 10
         sqr_n /= 10
         len++
     } while (n > len)
-    return its
+    return its.toInt()
 
 }
 

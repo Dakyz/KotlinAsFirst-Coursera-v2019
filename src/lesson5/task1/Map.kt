@@ -128,7 +128,20 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TO
  * В выходном списке не должно быть повторяюихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
+
+    val result: MutableList<String> = mutableListOf()
+
+    for (q in a) {
+        for (w in b) {
+            if (q == w) {
+                if (result.contains(q) == false)
+                    result.add(q)
+            }
+        }
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -176,7 +189,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String = TODO()
 
 /**
  * Средняя
@@ -257,7 +270,17 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+
+
+    for (q in 0 until list.lastIndex) {
+        for (w in q + 1 until list.lastIndex + 1) {
+            if (list[q] + list[w] == number)
+                return Pair(q, w)
+        }
+    }
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная

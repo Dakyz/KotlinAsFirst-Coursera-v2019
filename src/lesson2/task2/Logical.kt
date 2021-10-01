@@ -19,7 +19,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = TODO()
+fun isNumberHappy(number: Int): Boolean = (number.toString()[0].toInt() - 48 + number.toString()[1].toInt() - 48) ==
+        (number.toString()[2].toInt() - 48 + number.toString()[3].toInt() - 48)
 
 /**
  * Простая

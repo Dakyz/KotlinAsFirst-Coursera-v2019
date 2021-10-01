@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import java.lang.IllegalArgumentException
+
 /**
  * Пример
  *
@@ -133,7 +135,25 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+
+    val arr = expression.replace("\\s+".toRegex(), "").split("\\p{Punct}+".toRegex())
+    val option = "[+-]".toRegex().findAll(expression.replace("\\s+".toRegex(), "")).map { it.value }.toList()
+    val all_option = option.filter { !it.isBlank() };
+
+    if (arr.lastIndex != all_option.lastIndex + 1)
+        throw IllegalArgumentException()
+
+    var q = 0
+    var result = arr.get(0).toInt()
+    while (q < all_option.lastIndex + 1) {
+        if (all_option[q] == "+")
+            result += arr.get(q + 1).toInt()
+        else result -= arr.get(q + 1).toInt()
+        q++
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -144,7 +164,28 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+
+    val list: MutableList<String> = str.split("\\s+".toRegex()) as MutableList<String>
+
+    var count = 0
+    for (arg in list) {
+        for (arg2 in list) {
+            if (count == 1) {
+                if (arg.equals(arg2, ignoreCase = true))
+                    return str.indexOf(arg)
+                else
+                    break
+            }
+
+            if (arg.equals(arg2, ignoreCase = true))
+                count++
+        }
+        count = 0
+    }
+
+    return -1
+}
 
 /**
  * Сложная

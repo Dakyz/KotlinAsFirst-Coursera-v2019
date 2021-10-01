@@ -5,6 +5,8 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import kotlin.math.sqrt
 
+val map: MutableMap<Int, String> = mutableMapOf()
+
 /**
  * Пример
  *
@@ -245,4 +247,137 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+
+fun two_digits(n: Int, string: String): String? {
+
+    if (string[0].toInt() - 48 == 0)
+        return map[string[1].toInt() - 48]
+
+    if (string[0].toInt() - 48 > 1 && string[1].toInt() - 48 != 0) {
+        return map[(string[0].toInt() - 48) * 10] + " " + (map[string[1].toInt() - 48])
+    } else
+        return map[(string[0].toInt() - 48) * 10 + string[1].toInt() - 48]
+}
+
+fun three_digits(n: Int, string: String): String? {
+
+    if (string[0].toInt() - 48 == 0)
+        return two_digits(n, string.replaceFirst(string[0].toString(), ""))
+    if (string[1].toInt() - 48 > 0 && string[2].toInt() - 48 != 0)
+        return map[(string[0].toInt() - 48) * 100] + " " + two_digits(n, string.replaceFirst(string[0].toString(), ""))
+    else if (string[1].toInt() - 48 > 0 && string[2].toInt() - 48 == 0)
+        return map[(string[0].toInt() - 48) * 100] + " " + map[(string[1].toInt() - 48) * 10]
+    else if (string[1].toInt() - 48 == 0 && string[2].toInt() - 48 != 0) {
+        return map[(string[0].toInt() - 48) * 100] + " " + map[string[2].toInt() - 48]
+    } else
+        return map[string.toInt()]
+}
+
+fun four_digits(n: Int, string: String): String? {
+
+    if (string[0].toInt() - 48 == 0)
+        return "тысяч " + three_digits(n, string.replaceFirst(string[0].toString(), ""))
+
+    return map[(string[0].toInt() - 48) * 1000] + " " + three_digits(n, string.replaceFirst(string[0].toString(), ""))
+}
+
+fun five_digits(n: Int, string: String): String? {
+
+    if (string[0].toInt() - 48 == 0)
+        return four_digits(n, string.replaceFirst(string[0].toString(), ""))
+
+    if (string[0].toInt() - 48 == 1 && string[1].toInt() - 48 != 0) {
+
+        val tmp_string = string.replaceFirst(string[1].toString(), "")
+        return map[(string[0].toInt() - 48) * 10 + (string[1].toInt() - 48)] + " тысяч " + three_digits(
+            n,
+            tmp_string.replaceFirst(string[0].toString(), "")
+        )
+    } else
+        return map[(string[0].toInt() - 48) * 10] + " " + four_digits(n, string.replaceFirst(string[0].toString(), ""))
+}
+
+fun six_digits(n: Int, string: String): String {
+
+    val returnable = five_digits(n, string.replaceFirst(string[0].toString(), ""))
+    val builder = StringBuilder()
+    if (returnable != null) {
+        for (q in 0..returnable.length - 2)
+            builder.append(returnable[q])
+    }
+    if (returnable?.get(returnable.lastIndex).toString().equals(" ") == false)
+        builder.append(returnable?.get(returnable.lastIndex) ?: "")
+    return map[(string[0].toInt() - 48) * 100] + " " + builder.toString()
+}
+
+fun russian(n: Int): String? {
+
+    map[0] = ""
+    map[1] = "один"
+    map[2] = "два"
+    map[3] = "три"
+    map[4] = "четыре"
+    map[5] = "пять"
+    map[6] = "шесть"
+    map[7] = "семь"
+    map[8] = "восемь"
+    map[9] = "девять"
+
+    map[10] = "десять"
+    map[11] = "одиннадцать"
+    map[12] = "двенадцать"
+    map[13] = "тринадцать"
+    map[14] = "четырнадцать"
+    map[15] = "пятнадцать"
+    map[16] = "шестнадцать"
+    map[17] = "семнадцать"
+    map[18] = "восемнадцать"
+    map[19] = "девятнадцать"
+    map[20] = "двадцать"
+    map[30] = "тридцать"
+    map[40] = "сорок"
+    map[50] = "пятьдесят"
+    map[60] = "шестьдесят"
+    map[70] = "семьдесят"
+    map[80] = "восемьдесят"
+    map[90] = "девяносто"
+
+    map[100] = "сто"
+    map[200] = "двести"
+    map[300] = "триста"
+    map[400] = "четыреста"
+    map[500] = "пятьсот"
+    map[600] = "шестьсот"
+    map[700] = "семьсот"
+    map[800] = "восемьсот"
+    map[900] = "девятьсот"
+
+    map[1000] = "одна тысяча"
+    map[2000] = "две тысячи"
+    map[3000] = "три тысячи"
+    map[4000] = "четыре тысячи"
+    map[5000] = "пять тысяч"
+    map[6000] = "шесть тысяч"
+    map[7000] = "семь тысяч"
+    map[8000] = "восемь тысяч"
+    map[9000] = "девять тысяч"
+
+    val string = n.toString()
+
+    if (n == 0)
+        return "ноль"
+
+    return if (string.length == 1)
+        map[n]
+    else if (string.length == 2) {
+        two_digits(n, string)?.replace("null", "")
+    } else if (string.length == 3) {
+        three_digits(n, string)?.replace("null", "")
+    } else if (string.length == 4) {
+        four_digits(n, string)?.replace("null", "")
+    } else if (string.length == 5) {
+        five_digits(n, string)?.replace("null", "")
+    } else
+        six_digits(n, string).replace("null", "")
+}
+
