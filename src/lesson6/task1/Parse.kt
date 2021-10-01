@@ -137,6 +137,9 @@ fun bestHighJump(jumps: String): Int = TODO()
  */
 fun plusMinus(expression: String): Int {
 
+    if (expression.isEmpty() || expression.contains("[^\\s+0-9-]".toRegex()) || !expression.contains("[0-9]".toRegex()))
+        throw IllegalArgumentException()
+
     val arr = expression.replace("\\s+".toRegex(), "").split("\\p{Punct}+".toRegex())
     val option = "[+-]".toRegex().findAll(expression.replace("\\s+".toRegex(), "")).map { it.value }.toList()
     val all_option = option.filter { !it.isBlank() };
@@ -166,22 +169,17 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
 
-    val list: MutableList<String> = str.split("\\s+".toRegex()) as MutableList<String>
+    val list: List<String> = str.split("\\s+".toRegex())
+    var new_string = ""
 
-    var count = 0
-    for (arg in list) {
-        for (arg2 in list) {
-            if (count == 1) {
-                if (arg.equals(arg2, ignoreCase = true))
-                    return str.indexOf(arg)
-                else
-                    break
-            }
-
-            if (arg.equals(arg2, ignoreCase = true))
-                count++
-        }
-        count = 0
+    for (q in 0..list.lastIndex - 1) {
+        new_string += list[q]
+        if (list[q].equals(list[q + 1], ignoreCase = true))
+            return new_string.indexOf(list[q])
+        var tmp = ""
+        for (w in list[q].indices)
+            tmp += " "
+        new_string = new_string.replace(list[q], tmp) + " "
     }
 
     return -1
